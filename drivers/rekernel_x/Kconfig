@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: GPL-2.0
+#
+# ReKernel-X configuration
+#
+
+config REKERNEL_X
+	tristate "ReKernel-X: Binder/signal/network event monitoring"
+	depends on ANDROID_BINDER_IPC
+	default n
+	help
+	  ReKernel-X monitors binder transactions, signals and network
+	  events and forwards them to userspace via generic netlink.
+	  Used by app lifecycle managers to optimize background process
+	  handling on Android.
+
+	  If unsure, say N.
