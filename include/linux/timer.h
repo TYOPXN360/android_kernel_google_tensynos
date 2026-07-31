@@ -189,6 +189,18 @@ extern void add_timer(struct timer_list *timer);
 extern int try_to_del_timer_sync(struct timer_list *timer);
 extern int del_timer_sync(struct timer_list *timer);
 
+/*
+ * ANDROID: timer_shutdown_sync() and its __timer_delete_sync() shutdown
+ * infrastructure are not backported to this tree. Provide a compat wrapper
+ * over del_timer_sync() so upstream callers that shut a timer down during
+ * final teardown (right before freeing the object) keep building. The
+ * rearm-prevention guarantee is not needed at those teardown sites.
+ */
+static inline int timer_shutdown_sync(struct timer_list *timer)
+{
+	return del_timer_sync(timer);
+}
+
 extern void init_timers(void);
 struct hrtimer;
 extern enum hrtimer_restart it_real_fn(struct hrtimer *);
